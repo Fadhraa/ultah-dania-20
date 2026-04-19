@@ -342,23 +342,36 @@ if (bgMusic) {
 startBtn.addEventListener("click", () => {
   instructionPanel.classList.add("hidden");
   isGameActive = true;
+  if (bgMusic) {
+    bgMusic.play().catch(e => console.log("Button audio play error:", e));
+  }
 });
 
 // Click detection for canvas
-canvas.addEventListener("click", (e) => {
+function handleStarInteraction(e) {
   if (!isGameActive) return;
 
   const rect = canvas.getBoundingClientRect();
-  const mouseX = e.clientX - rect.left;
-  const mouseY = e.clientY - rect.top;
+  
+  // Extract coordinate based on event type
+  let clientX = e.clientX;
+  let clientY = e.clientY;
+  
+  if (e.type === 'touchstart') {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+  }
+
+  const mouseX = clientX - rect.left;
+  const mouseY = clientY - rect.top;
 
   // Check hit on memory stars
   for (let i = 0; i < memoryStars.length; i++) {
     let s = memoryStars[i];
     if (!s.found) {
-      // Hit area has generous radius for ease (e.g., 20px)
+      // Hit area has HUGE radius for mobile devices
       const dist = Math.hypot(mouseX - s.x, mouseY - s.y);
-      if (dist < 25) {
+      if (dist < 60) {
         // Hit!
         s.found = true;
         clickedStars.push(s);
@@ -369,7 +382,10 @@ canvas.addEventListener("click", (e) => {
       }
     }
   }
-});
+}
+
+canvas.addEventListener("click", handleStarInteraction);
+canvas.addEventListener("touchstart", handleStarInteraction, { passive: true });
 
 function showMemory(index) {
   isGameActive = false; // pause clicking
