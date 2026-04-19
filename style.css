@@ -1,0 +1,149 @@
+:root {
+    --bg-dark: #070714;
+    --bg-light: #16152a;
+    --accent: #d8a4ff;
+    --accent-glow: rgba(216, 164, 255, 0.6);
+    --text-main: #fbfbfb;
+    --text-muted: #abb8c4;
+    --panel-bg: rgba(25, 25, 45, 0.45);
+    --panel-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 50% 80%, rgba(216, 164, 255, 0.1) 0%, transparent 60%);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+}
+
+#skyCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    cursor: crosshair;
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: var(--panel-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--panel-border);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    max-width: 90%;
+    width: 400px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.glass-panel.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -45%);
+}
+
+.glass-panel h1, .glass-panel h2 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 16px;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.glass-panel p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+button {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px transparent;
+}
+
+button:hover {
+    background: var(--accent);
+    color: var(--bg-dark);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Final Message Details */
+#finalMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    text-align: center;
+    width: 90%;
+    pointer-events: none; /* Let clicks pass through to canvas later if needed */
+    transition: opacity 2s ease;
+}
+
+#finalMessage.hidden {
+    opacity: 0;
+}
+
+.glow-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent);
+    margin-bottom: 20px;
+    animation: pulseGlow 3s infinite alternate;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.signature {
+    margin-top: 30px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+@keyframes pulseGlow {
+    from {
+        text-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent);
+    }
+    to {
+        text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent);
+    }
+}
